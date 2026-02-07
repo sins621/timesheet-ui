@@ -59,8 +59,8 @@ export const ENDPOINTS = {
     method: "GET",
     url: urlSchema.parse(API_URL + "Project")
   },
-  authorize: {
+  authorise: {
     method: "POST",
-    url: urlSchema.parse(API_URL + "account/authorize")
+    url: urlSchema.parse(API_URL + "account/authorise")
   }
 };
