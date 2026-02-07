@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx index.ts",
+    "typecheck": "tsc --watch"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,11 @@
   "packageManager": "pnpm@10.28.0",
   "dependencies": {
     "@types/node": "^25.2.1",
-    "typescript": "^5.9.3"
+    "got": "^14.6.6",
+    "neverthrow": "^8.2.0",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
   }
 }
