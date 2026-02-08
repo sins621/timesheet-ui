@@ -1,10 +1,11 @@
 import { ENDPOINTS as warpEndpoints } from "../constants/warp.ts";
+import type { WarpEmail } from "../types/warp.ts";
 import { Result, ResultAsync, err, ok } from "neverthrow";
 import { got } from "got";
 import { tokenResponseSchema } from "../schemas/warp.ts";
 
 export async function getAuthToken(
-  email: string,
+  email: WarpEmail,
   password: string,
 ): Promise<Result<string, string>> {
   const result = await ResultAsync.fromPromise(
@@ -14,7 +15,7 @@ export async function getAuthToken(
         Password: password,
       },
     }).json(),
-    (err) => err as Error,
+    () => new Error(`Request to ${warpEndpoints.authorise.url} failed`),
   );
 
   if (result.isErr()) return err("Error getting auth token");

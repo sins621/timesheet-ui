@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "dev": "tsx index.ts",
+    "dev": "dotenvx run tsx index.ts",
+    "script": "dotenvx run tsx testing.ts",
     "typecheck": "tsc --watch"
   },
   "keywords": [],
@@ -13,6 +14,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.28.0",
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
     "@types/node": "^25.2.1",
     "got": "^14.6.6",
     "neverthrow": "^8.2.0",
