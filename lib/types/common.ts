@@ -7,4 +7,3 @@ export type Endpoint = {
   method: "GET" | "POST";
   url: Url;
 };
-

@@ -9,12 +9,14 @@ export async function getAuthToken(
   password: string,
 ): Promise<Result<string, string>> {
   const result = await ResultAsync.fromPromise(
-    got.post(warpEndpoints.authorise.url, {
-      json: {
-        Email: email,
-        Password: password,
-      },
-    }).json(),
+    got
+      .post(warpEndpoints.authorise.url, {
+        json: {
+          Email: email,
+          Password: password,
+        },
+      })
+      .json(),
     () => new Error(`Request to ${warpEndpoints.authorise.url} failed`),
   );
 
