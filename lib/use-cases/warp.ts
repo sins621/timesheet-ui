@@ -17,14 +17,21 @@ export async function getAuthToken(
         },
       })
       .json(),
-    () => new Error(`Request to ${warpEndpoints.authorise.url} failed`),
+    (e) =>
+      new Error(
+        `Request to ${warpEndpoints.authorise.url} failed: ${String(e)}`,
+      ),
   );
 
-  if (result.isErr()) return err("Error getting auth token");
+  if (result.isErr())
+    return err(`Error getting auth token, err: ${result.error}`);
 
-  const parseResult = tokenResponseSchema.safeParse(result.value);
+  const parseResult = Result.fromThrowable(
+    () => tokenResponseSchema.parse(result.value),
+    (e) => new Error(`Parse failed, err: ${String(e)}`),
+  )();
 
-  if (!parseResult.success) return err("Token parsing failed");
+  if (parseResult.isErr()) return err(`Token parsing failed, err: ${parseResult.error}`);
 
-  return ok(parseResult.data.token);
+  return ok(parseResult.value.token);
 }

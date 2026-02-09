@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "dotenvx run tsx index.ts",
     "script": "dotenvx run tsx testing.ts",
-    "typecheck": "tsc --watch"
+    "typecheck": "tsc --watch",
+    "test:run": "dotenvx run vitest run"
   },
   "keywords": [],
   "author": "",
@@ -18,9 +19,11 @@
     "@types/node": "^25.2.1",
     "got": "^14.6.6",
     "neverthrow": "^8.2.0",
+    "nock": "^14.0.10",
     "prettier": "^3.8.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
+    "vitest": "^4.0.18",
     "zod": "^4.3.6"
   }
 }
