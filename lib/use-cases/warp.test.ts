@@ -1,9 +1,8 @@
-import { describe, it, expect, beforeAll, afterEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import nock from "nock";
 import { getAuthToken, getProjects } from "./warp.ts";
 import { emailSchema } from "../schemas/warp.ts";
-
-
+import { constructBearerAuthHeaders } from "./common.ts";
 
 describe("getAuthToken", async () => {
   it("should return a token ", async () => {
@@ -61,6 +60,7 @@ describe("getAuthToken", async () => {
 describe("getProjects", async () => {
   it("should return projects ", async () => {
     const testToken = "someBearerToken";
+    const authHeaders = constructBearerAuthHeaders(testToken);
     const correctResponse = [
       {
         TaskId: 2,
@@ -90,64 +90,39 @@ describe("getProjects", async () => {
 
     nock("https://office.warpdevelopment.com")
       .get("/api/Project")
-      .matchHeader("authorization", `Bearer ${testToken}`)
+      .matchHeader("Authorization", `Bearer ${testToken}`)
       .reply(200, correctResponse);
 
-    const result = await getProjects(testToken);
+    const result = await getProjects(authHeaders);
 
     if (result.isErr()) {
       throw new Error(result.error);
     }
     expect(result.isOk()).toBe(true);
     expect(result.value).toEqual(correctResponse);
-  });  
+  });
   it("should return an error result if request fails", async () => {
     const testToken = "someBearerToken";
-    const correctResponse = [
-      {
-        TaskId: 2,
-        Name: "Hosting Website",
-        IsActive: true,
-        Created_On: "2007-01-10T14:49:26.093",
-        Updated_On: "2007-01-10T14:49:26.093",
-        Client: {
-          GroupId: 2,
-          Name: "Warp Development",
-          Currency: "South African Rand",
-        },
-      },
-      {
-        TaskId: 3,
-        Name: "Software Website",
-        IsActive: true,
-        Created_On: "2007-01-10T14:49:31.03",
-        Updated_On: "2020-06-01T13:55:18.21",
-        Client: {
-          GroupId: 2,
-          Name: "Warp Development",
-          Currency: "South African Rand",
-        },
-      },
-    ];
+    const authHeaders = constructBearerAuthHeaders(testToken);
 
     nock("https://office.warpdevelopment.com")
       .get("/api/Project")
-      .matchHeader("authorization", `Bearer ${testToken}`)
+      .matchHeader("Authorization", `Bearer ${testToken}`)
       .replyWithError("Network failure");
 
-    const result = await getProjects(testToken);
+    const result = await getProjects(authHeaders);
     expect(result.isErr()).toBe(true);
   });
   it("should return an error result if parsing fails", async () => {
     const testToken = "someBearerToken";
+    const authHeaders = constructBearerAuthHeaders(testToken);
 
     nock("https://office.warpdevelopment.com")
       .get("/api/Project")
-      .matchHeader("authorization", `Bearer ${testToken}`)
+      .matchHeader("Authorization", `Bearer ${testToken}`)
       .reply(200, { someNonsense: "" });
 
-    const result = await getProjects(testToken);
+    const result = await getProjects(authHeaders);
     expect(result.isErr()).toBe(true);
   });
-
 });

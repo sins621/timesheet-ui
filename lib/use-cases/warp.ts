@@ -1,5 +1,6 @@
 import { ENDPOINTS as warpEndpoints } from "../constants/warp.ts";
 import type { WarpEmail, Project } from "../types/warp.ts";
+import type { AuthHeaders } from "../types/common.ts";
 import { Result, ResultAsync, err, ok } from "neverthrow";
 import { got } from "got";
 import { tokenResponseSchema, projectSchema } from "../schemas/warp.ts";
@@ -38,14 +39,12 @@ export async function getAuthToken(
 }
 
 export async function getProjects(
-  token: string,
+  authHeaders: AuthHeaders
 ): Promise<Result<Project[], string>> {
   const result = await ResultAsync.fromPromise(
     got
       (warpEndpoints.getProjects.url, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
+        headers: authHeaders,
       })
       .json(),
     (e) =>
