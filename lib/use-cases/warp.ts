@@ -27,9 +27,9 @@ export async function getAuthToken(
     return err(`Error getting auth token, err: ${result.error}`);
 
   const parseResult = Result.fromThrowable(
-    () => tokenResponseSchema.parse(result.value),
+    tokenResponseSchema.parse,
     (e) => new Error(`Parse failed, err: ${String(e)}`),
-  )();
+  )(result.value);
 
   if (parseResult.isErr())
     return err(`Token parsing failed, err: ${parseResult.error}`);
@@ -58,9 +58,9 @@ export async function getProjects(
     return err(`Error getting projects, err: ${result.error}`);
 
   const parseResult = Result.fromThrowable(
-    () => projectSchema.array().parse(result.value),
+    projectSchema.array().parse,
     (e) => new Error(`Parse failed, err: ${String(e)}`),
-  )();
+  )(result.value);
 
   if (parseResult.isErr())
     return err(`Project parsing failed, err: ${parseResult.error}`);
