@@ -8,7 +8,9 @@ async function main() {
     env.TEST_WARP_PASSWORD,
   );
   if (tokenResult.isErr()) throw new Error("Error getting token")
-  const projectsResult = await getProjects(tokenResult.value);
+  const projectsResult = await getProjects({
+    Authorization: `Bearer + ${tokenResult.value}`
+  });
   console.log(projectsResult);
 }
 
