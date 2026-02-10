@@ -9,7 +9,8 @@
     "script": "dotenvx run tsx testing.ts",
     "typecheck": "tsc --watch",
     "test:run": "dotenvx run vitest run",
-    "test:watch": "dotenvx run vitest"
+    "test:watch": "dotenvx run vitest",
+    "ci:test": "vitest run"
   },
   "keywords": [],
   "author": "",
