@@ -20,18 +20,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-
-      - name: Add pnpm to PATH
-        run: echo "${HOME}/.local/share/pnpm" >> $GITHUB_PATH
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Run tests
-        run: pnpm test:run
+        run: npm run test:run
