@@ -7,3 +7,5 @@ export type Endpoint = {
   method: "GET" | "POST";
   url: Url;
 };
+
+export type AuthHeaders = { Authorization: string }
