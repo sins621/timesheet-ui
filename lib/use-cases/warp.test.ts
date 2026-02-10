@@ -28,7 +28,7 @@ describe("getAuthToken", async () => {
 
     expect(result.value).toEqual(correctResponse.token);
   });
-  it("should return an error result if request failes", async () => {
+  it("should return an error result if request fails", async () => {
     const testEmail = emailSchema.parse("some@email.com");
     const testPassword = "someTestPassword";
 
@@ -101,7 +101,7 @@ describe("getProjects", async () => {
     expect(result.isOk()).toBe(true);
     expect(result.value).toEqual(correctResponse);
   });  
-  it("should return an error result if request failes", async () => {
+  it("should return an error result if request fails", async () => {
     const testToken = "someBearerToken";
     const correctResponse = [
       {
