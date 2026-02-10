@@ -3,13 +3,7 @@ import nock from "nock";
 import { getAuthToken, getProjects } from "./warp.ts";
 import { emailSchema } from "../schemas/warp.ts";
 
-beforeAll(() => {
-  nock.disableNetConnect();
-});
 
-afterEach(() => {
-  nock.restore();
-});
 
 describe("getAuthToken", async () => {
   it("should return a token ", async () => {
