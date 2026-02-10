@@ -22,14 +22,16 @@ export const projectClientSchema = z
   })
   .brand<"warpProjectClient">();
 
-export const projectSchema = z.object({
-  Taskid: z.number(),
-  Name: z.string(),
-  IsActive: z.boolean(),
-  Created_On: timeSchema,
-  Updated_On: timeSchema,
-  Client: projectClientSchema,
-}).brand<"warpProject">;
+export const projectSchema = z.
+  object({
+    TaskId: z.number(),
+    Name: z.string(),
+    IsActive: z.boolean(),
+    Created_On: timeSchema,
+    Updated_On: timeSchema,
+    Client: projectClientSchema,
+  })
+  .brand<"warpProject">();
 
 export const entrySchema = z
   .object({
