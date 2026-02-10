@@ -100,5 +100,54 @@ describe("getProjects", async () => {
     }
     expect(result.isOk()).toBe(true);
     expect(result.value).toEqual(correctResponse);
+  });  
+  it("should return an error result if request failes", async () => {
+    const testToken = "someBearerToken";
+    const correctResponse = [
+      {
+        TaskId: 2,
+        Name: "Hosting Website",
+        IsActive: true,
+        Created_On: "2007-01-10T14:49:26.093",
+        Updated_On: "2007-01-10T14:49:26.093",
+        Client: {
+          GroupId: 2,
+          Name: "Warp Development",
+          Currency: "South African Rand",
+        },
+      },
+      {
+        TaskId: 3,
+        Name: "Software Website",
+        IsActive: true,
+        Created_On: "2007-01-10T14:49:31.03",
+        Updated_On: "2020-06-01T13:55:18.21",
+        Client: {
+          GroupId: 2,
+          Name: "Warp Development",
+          Currency: "South African Rand",
+        },
+      },
+    ];
+
+    nock("https://office.warpdevelopment.com")
+      .get("/api/Project")
+      .matchHeader("authorization", `Bearer ${testToken}`)
+      .replyWithError("Network failure");
+
+    const result = await getProjects(testToken);
+    expect(result.isErr()).toBe(true);
   });
+  it("should return an error result if parsing fails", async () => {
+    const testToken = "someBearerToken";
+
+    nock("https://office.warpdevelopment.com")
+      .get("/api/Project")
+      .matchHeader("authorization", `Bearer ${testToken}`)
+      .reply(200, { someNonsense: "" });
+
+    const result = await getProjects(testToken);
+    expect(result.isErr()).toBe(true);
+  });
+
 });
