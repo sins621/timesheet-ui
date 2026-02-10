@@ -8,7 +8,8 @@
     "dev": "dotenvx run tsx index.ts",
     "script": "dotenvx run tsx testing.ts",
     "typecheck": "tsc --watch",
-    "test:run": "dotenvx run vitest run"
+    "test:run": "dotenvx run vitest run",
+    "test:watch": "dotenvx run vitest"
   },
   "keywords": [],
   "author": "",
