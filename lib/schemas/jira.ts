@@ -13,6 +13,7 @@ export const projectCategorySchema = z.
   object({
     self: z.url(),
     id: z.number(),
+    name: z.string(),
     description: z.string()
   })
   .brand<"jiraProjectCategory">();
