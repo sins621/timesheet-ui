@@ -7,7 +7,6 @@ import { ENDPOINTS as jiraEndpoints } from "../constants/jira.ts";
 
 
 export async function getProjects(authHeaders: AuthHeaders): Promise<Result<Project[], string>> {
-  console.log(jiraEndpoints.projectSearch.url)
   const result = await ResultAsync.fromPromise(
     got
       (jiraEndpoints.projectSearch.url, {

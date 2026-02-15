@@ -12,7 +12,7 @@ export const avatarUrlsSchema = z.
 export const projectCategorySchema = z.
   object({
     self: z.url(),
-    id: z.number(),
+    id: z.union([z.number(), z.string()]),
     name: z.string(),
     description: z.string()
   })
@@ -22,7 +22,7 @@ export const projectSchema = z.
   object({
     expand: z.string(),
     self: z.url(),
-    id: z.number(),
+    id: z.union([z.number(), z.string()]),
     key: z.string(),
     name: z.string(),
     avatarUrls: avatarUrlsSchema,

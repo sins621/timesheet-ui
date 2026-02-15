@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "dev": "dotenvx run tsx ./web/index.ts",
+    "dev": "dotenvx run tsx watch ./web/index.ts",
     "script": "dotenvx run tsx testing.ts",
     "typecheck": "tsc --watch",
     "test:run": "dotenvx run vitest run",

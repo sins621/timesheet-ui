@@ -1,11 +1,11 @@
 'use strict'
 
-import express from "express";
-import path from "node:path";
 import { Eta } from "eta";
+import env from "../env.ts";
+import path from "node:path";
+import express from "express";
 import { getProjects } from "../lib/use-cases/jira.ts";
 import { constructBasicAuthHeaders } from "../lib/use-cases/common.ts";
-import env from "../env.ts";
 
 const app = express()
 app.use(express.json())
@@ -20,12 +20,13 @@ app.get("/", (_, res) => {
   res.status(200).send(renderedTemplate)
 })
 
-app.get("/jira/projects", async (req, res) => {
-  const { query } = req.query;
-  if (query) console.log(query);
+app.get("/jira/projects", async (_, res) => {
   const authHeaders = constructBasicAuthHeaders(env.TEST_WARP_EMAIL, env.JIRA_API_TOKEN);
   const result = await getProjects(authHeaders);
-  if (result.isErr()) return res.status(503);
+  if (result.isErr()) {
+    console.log("GET: /jira/projects failed getProjects() with err: ", result.error);
+    return res.status(503).json({ error: "Failed to fetch projects" })
+  };
   return res.json(result.value)
 })
 

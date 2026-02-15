@@ -1,1 +1,1 @@
-https://localhost:3000/rest/jira/projects
+http://localhost:3000/jira/projects
