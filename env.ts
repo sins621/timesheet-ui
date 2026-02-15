@@ -1,8 +1,10 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  TEST_WARP_EMAIL: z.string(),
+  JIRA_API_TOKEN : z.string(),
+  TEST_WARP_EMAIL: z.email(),
   TEST_WARP_PASSWORD: z.string(),
 });
 
-export const env = envSchema.parse(process.env);
+const env = envSchema.parse(process.env);
+export default env

@@ -1,22 +1,34 @@
 'use strict'
 
 import express from "express";
-import ejs from "ejs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { Eta } from "eta";
+import { getProjects } from "../lib/use-cases/jira.ts";
+import { constructBasicAuthHeaders } from "../lib/use-cases/common.ts";
+import env from "../env.ts";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const app = express()
+app.use(express.json())
 
-const app = express();
+const eta = new Eta({
+  views: path.join(import.meta.dirname, "views"),
+  cache: true
+})
 
-app.engine('.html', ejs.__express);
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'html');
+app.get("/", (_, res) => {
+  const renderedTemplate = eta.render("home", {})
+  res.status(200).send(renderedTemplate)
+})
 
-app.get('/', (_, res) => {
-  res.render('home');
-});
+app.get("/jira/projects", async (req, res) => {
+  const { query } = req.query;
+  if (query) console.log(query);
+  const authHeaders = constructBasicAuthHeaders(env.TEST_WARP_EMAIL, env.JIRA_API_TOKEN);
+  const result = await getProjects(authHeaders);
+  if (result.isErr()) return res.status(503);
+  return res.json(result.value)
+})
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(3000, () => {
+  console.log("Server listening on port 3000")
+})
